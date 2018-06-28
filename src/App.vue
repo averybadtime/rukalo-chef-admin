@@ -1,60 +1,39 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  import path from "path"
+  export default {
+    mounted() {
+      this.loadScripts()
+    },
+    methods: {
+      loadScripts() {
+        // Cargo los script dinámicamente aquí, porque el DOM carga antes de que firebase de respuesta de autenticación y los elementos no alcanzan a estar creados cuando jQuery y los demás pluggins ya los están manipulando al cargar dentro del mismo.
+        const root = path.resolve(__dirname, "src/scripts")
+        const scripts = [
+          "/mmenu.min.js",
+          "/chosen.min.js",
+          "/slick.min.js",
+          "/rangeslider.min.js",
+          "/magnific-popup.min.js",
+          "/waypoints.min.js",
+          "/counterup.min.js",
+          "/jquery-ui.min.js",
+          "/tooltips.min.js",
+          "/md5.min.js",
+          "/custom.js"
+        ]
+        scripts.forEach(script => {
+          let tag = document.createElement("script")
+          tag.type = "text/javascript"
+          tag.src = root + script
+          document.getElementsByTagName("head")[0].appendChild(tag)
+        })
+      }
     }
-  }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>
