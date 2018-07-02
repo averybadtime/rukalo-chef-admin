@@ -1,14 +1,29 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div id="wrapper">
+      <!-- start: HEADER -->
+      <rukalo-header v-if="user"></rukalo-header>
+      <div class="clearfix"></div>
+      <!-- end: HEADER -->
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
   import path from "path"
+  import RukaloHeader from "@/layouts/Header.vue"
   export default {
+    components: {
+      RukaloHeader
+    },
     mounted() {
       this.loadScripts()
+    },
+    computed: {
+      user() {
+        return this.$store.state.user
+      }
     },
     methods: {
       loadScripts() {
